@@ -1,20 +1,39 @@
-// Ejercicio Programado
-// 1-Crear un programa en Node JS que copie el contenido de un archivo de origen a un archivo de destino, 
-// esto se debe realizar mediante una función llamada copyFile que acepte los nombres de archivo de origen y destino como parámetros. 
-// Esta función leerá el contenido del archivo de origen y lo escribirá en el archivo de destino.
-// Mostrar un msj en consola confirmando que el archivo fue copiado exitosamente o un mensaje de error en caso que algo no funcionara bien
+
+// Cree un programa utilizando modulos y las funciones de lectura de archivos que
+// realice las siguientes busquedas búsqueda de palabras en archivo:
+// a. Crear un archivo de texto llamado "palabras.txt" y escriban una lista de
+// palabras separadas por espacios.
+// b. Luego lea el contenido de "palabras.txt" y solicite al usuario ingresar una
+// palabra para buscar en el archivo.
+// c. El programa debe contar y mostrar cuántas veces aparece la palabra
+// buscada en el archivo.
+
+
 
 const fs = require('fs');
 
-function copyFile(origen, destino) {
-  fs.copyFile(origen, destino, (err) => {
+function buscarPalabraEnArchivo(palabraBuscada) {
+  const filePath = './files/palabras.txt';
+
+  fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
-      console.error('Error al copiar el archivo:', err);
+      console.error('Se presento un error al buscar:', err);
       return;
     }
 
-    console.log('El archivo fue copiado exitosamente.');
+    const palabras = data.split(' ');
+    let conteo = 0;
+
+    palabras.forEach((palabra) => {
+      if (palabra.trim().toLowerCase() === palabraBuscada.trim().toLowerCase()) {
+        conteo++;
+      }
+    });
+
+    console.log(`Esta palabra  "${palabraBuscada}" se encuentra  ${conteo} veces en el archivo.`);
   });
 }
 
-copyFile('files/origen.txt', 'files/destino.txt');
+module.exports = {
+  buscarPalabraEnArchivo
+};
