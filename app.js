@@ -1,39 +1,30 @@
-
-// Cree un programa utilizando modulos y las funciones de lectura de archivos que
-// realice las siguientes busquedas búsqueda de palabras en archivo:
-// a. Crear un archivo de texto llamado "palabras.txt" y escriban una lista de
-// palabras separadas por espacios.
-// b. Luego lea el contenido de "palabras.txt" y solicite al usuario ingresar una
-// palabra para buscar en el archivo.
-// c. El programa debe contar y mostrar cuántas veces aparece la palabra
-// buscada en el archivo.
+const express = require('express');
+const app = express();
+const port = 3000;
 
 
+app.get('/', (req, res) => {
+  res.send('¡Bienvenido al servidor HTTP! soy steph');
+});
 
-const fs = require('fs');
 
-function buscarPalabraEnArchivo(palabraBuscada) {
-  const filePath = './files/palabras.txt';
+app.get('/about', (req, res) => {
+  res.send('Esta es la página de acerca de nosotros.');
+});
 
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Se presento un error al buscar:', err);
-      return;
-    }
 
-    const palabras = data.split(' ');
-    let conteo = 0;
+app.get('/contact', (req, res) => {
+  res.send('Ponte en contacto con nosotros en contactstephgarro2001@gmail.com');
+});
 
-    palabras.forEach((palabra) => {
-      if (palabra.trim().toLowerCase() === palabraBuscada.trim().toLowerCase()) {
-        conteo++;
-      }
-    });
 
-    console.log(`Esta palabra  "${palabraBuscada}" se encuentra  ${conteo} veces en el archivo.`);
-  });
-}
+app.use((req, res) => {
+  res.status(404).send('La pagina no se encontro ');
+});
 
-module.exports = {
-  buscarPalabraEnArchivo
-};
+
+app.listen(port, () => {
+  console.log(`Servidor escuchando en el puerto ${3000}`);
+});
+
+
