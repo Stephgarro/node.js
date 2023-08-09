@@ -1,39 +1,65 @@
+// 1-Crea un servidor HTTP utilizando Express en Node.js que responda a diferentes rutas con diferentes mensajes.
+// 2-El servidor debe responder a las siguientes rutas:
+// --Ruta raíz ("/"):"¡Bienvenido al servidor HTTP usando Express!"
+// --Ruta "/task" get: "Esta ruta va a devolver una lista de tareas" para efectos del registro registrar el id nombre de la tarea, una breve descripcion
+// --Ruta "/task" post: "agrega una nueva tarea a la lista"
+// –Ruta “/image/:username”: si el username ===’ronny’ devuelve una imagen ( la imagen es a gusto del estudiante) 
+// --Cualquier otra ruta: "Página no encontrada"
+// Escucha en el puerto 3000.
+// Cuando un cliente acceda a una ruta no especificada, el servidor debe responder con un código de estado 404 (Not Found).
 
-// Cree un programa utilizando modulos y las funciones de lectura de archivos que
-// realice las siguientes busquedas búsqueda de palabras en archivo:
-// a. Crear un archivo de texto llamado "palabras.txt" y escriban una lista de
-// palabras separadas por espacios.
-// b. Luego lea el contenido de "palabras.txt" y solicite al usuario ingresar una
-// palabra para buscar en el archivo.
-// c. El programa debe contar y mostrar cuántas veces aparece la palabra
-// buscada en el archivo.
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.send('¡Bienvenido al servidor HTTP usando Express!');
+});
+
+app.get('/task', (req, res) => {
+  const tasks = [
+    {
+      id: 101,
+      name: 'Steph garro',
+      description: 'front-end web developer'
+    },
+    {
+      id: 102,
+      name: 'Samantha miranda',
+      description: 'web desing student'
+    },
+  
+  ];
+  res.json(tasks);
+});
 
 
+app.post('/task', (req, res) => {
 
-const fs = require('fs');
+  const newTask = req.body;
 
-function buscarPalabraEnArchivo(palabraBuscada) {
-  const filePath = './files/palabras.txt';
+  res.send('se agrego la nueva tarea');
+});
 
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Se presento un error al buscar:', err);
-      return;
-    }
 
-    const palabras = data.split(' ');
-    let conteo = 0;
+app.get('/image/:username', (req, res) => {
+  const { username } = req.params;
+  if (username === 'birthday.jpg') {
+    
+    res.sendFile(__dirname + '/birthday.jpg'); 
+  } else {
+    res.status(404).send('Página no encontrada');
+  }
+});
 
-    palabras.forEach((palabra) => {
-      if (palabra.trim().toLowerCase() === palabraBuscada.trim().toLowerCase()) {
-        conteo++;
-      }
-    });
 
-    console.log(`Esta palabra  "${palabraBuscada}" se encuentra  ${conteo} veces en el archivo.`);
-  });
-}
+app.use((req, res) => {
+  res.status(404).send('Página no encontrada');
+});
 
-module.exports = {
-  buscarPalabraEnArchivo
-};
+
+app.listen(port, () => {
+  console.log(`Servidor corriendo en http://localhost:${port}`);
+});
