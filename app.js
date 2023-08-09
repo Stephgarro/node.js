@@ -22,13 +22,13 @@ app.get('/task', (req, res) => {
   const tasks = [
     {
       id: 101,
-      name: 'Steph garro',
-      description: 'front-end web developer'
+      name: 'Definicion de grupos de trabajo ',
+      description: 'Los grupos de trabajo encargados del diseno '
     },
     {
       id: 102,
-      name: 'Samantha miranda',
-      description: 'web desing student'
+      name: 'Definicion de horarios ',
+      description: 'Se definen los horarios de trabajo '
     },
   
   ];
